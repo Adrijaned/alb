@@ -25,6 +25,7 @@ TEST(tokenizer_tests, tokenizer_tests_utf8_parsing_comment_Test) {
   std::vector<alb_lang::Token*> tokens;
   alb_lang::Lexer::tokenizeUTF8(testData, sizeof(testData), tokens);
   EXPECT_EQ(tokens.size(), 3);
+  ASSERT_GE(tokens.size(), 3);
   EXPECT_EQ(tokens[0]->getTextContents(), std::string{"BEGIN"});
   EXPECT_EQ(tokens[1]->getTextContents(), std::string{"."});
   EXPECT_EQ(tokens[2]->getTextContents(), std::string{"END"});
@@ -35,6 +36,7 @@ TEST(tokenizer_tests, tokenizer_tests_utf8_parsing_multiline_comment_Test) {
   std::vector<alb_lang::Token*> tokens;
   alb_lang::Lexer::tokenizeUTF8(testData, sizeof(testData), tokens);
   EXPECT_EQ(tokens.size(), 3);
+  ASSERT_GE(tokens.size(), 3);
   EXPECT_EQ(tokens[0]->getTextContents(), std::string{"BEGIN"});
   EXPECT_EQ(tokens[1]->getTextContents(), std::string{"."});
   EXPECT_EQ(tokens[2]->getTextContents(), std::string{"END"});
