@@ -12,6 +12,7 @@
 #include <vector>
 #include "Token.hpp"
 #include <stdexcept>
+#include "Resources.hpp"
 
 namespace alb_lang {
   /**
@@ -273,6 +274,29 @@ namespace alb_lang {
                 continue;
               }
             }
+          }
+
+
+          // Handle strings
+          if (nextChar == '"') {
+            std::string stringData {};
+            while (currindex < dataSize) {
+              uint64_t tempCurrindex = currindex;
+              uint32_t nextNextChar = getNextChar((unsigned char*)(utf8Data), tempCurrindex);
+              if (nextNextChar == '"') {
+                getNextChar((unsigned char*)utf8Data, currindex); // To get currindex past nextNextChar
+                tokenList.push_back(new BasicToken{Resources::stringStore().storeString(stringData)});
+                break;
+              } else {
+                // tempCurrindex is past the currently processed char, while currindex is at its first byte.
+                // This adds all the bytes of the char into the stringData, for Unicode chars.
+                while (currindex < tempCurrindex) {
+                  stringData += utf8Data[currindex++];
+                }
+              }
+            }
+            startindex = currindex;
+            continue;
           }
 
 
